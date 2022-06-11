@@ -1,6 +1,4 @@
 package api.utils.orders;
-
-import api.utils.orders.CreateOrder;
 import io.restassured.response.Response;
 
 public class GenerateOrders {

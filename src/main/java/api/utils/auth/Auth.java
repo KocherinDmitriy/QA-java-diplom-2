@@ -1,22 +1,38 @@
 package api.utils.auth;
 
 import io.qameta.allure.Step;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.apache.commons.lang3.RandomStringUtils;
+import io.restassured.specification.RequestSpecification;
+import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 public class Auth {
 
+    public static HashMap getBodyAuthUserRequest(String email, String password) {
+        HashMap<String, Object> dataBody = new HashMap<String, Object>();
+        dataBody.put("email", email);
+        dataBody.put("password", password);
+
+
+        return dataBody;
+    }
+    private static final RequestSpecification REQ_SPEC=
+            new RequestSpecBuilder()
+                    .setBaseUri("https://stellarburgers.nomoreparties.site")
+                    .setBasePath("/api/auth/register")
+                    .setContentType(ContentType.JSON)
+                    .build();
 
     @Step("Send POST  https://stellarburgers.nomoreparties.site/api/auth/login")
     public static Response sendPostRequestAutorization(String email, String password) {
         Response response = given()
-                .header("Content-type", "application/json")
+                .spec(REQ_SPEC)
                 .and()
-                .body("{\"email\":\"" + email + "\","
-                        + "\"password\":\"" + password + "\"}")
+                .body(getBodyAuthUserRequest(email,password))
                 .when()
                 .post(" https://stellarburgers.nomoreparties.site/api/auth/login");
         ;
