@@ -5,6 +5,7 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+
 import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
@@ -20,21 +21,34 @@ public class Auth {
 
         return dataBody;
     }
-    private static final RequestSpecification REQ_SPEC=
+
+    private static final RequestSpecification REQ_SPEC =
             new RequestSpecBuilder()
                     .setBaseUri("https://stellarburgers.nomoreparties.site")
-                    .setBasePath("/api/auth/register")
+                    .setBasePath("/api/auth/login")
                     .setContentType(ContentType.JSON)
                     .build();
+
+    public static String getAuthToken(String email, String password) {
+        Response response = given()
+                .spec(REQ_SPEC)
+                .and()
+                .body(getBodyAuthUserRequest(email, password))
+                .when()
+                .post();
+
+        unils.pojo.CreateUserResponse createUserResponse = response.body().as(unils.pojo.CreateUserResponse.class);
+        return createUserResponse.getAccessToken();
+    }
 
     @Step("Send POST  https://stellarburgers.nomoreparties.site/api/auth/login")
     public static Response sendPostRequestAutorization(String email, String password) {
         Response response = given()
                 .spec(REQ_SPEC)
                 .and()
-                .body(getBodyAuthUserRequest(email,password))
+                .body(getBodyAuthUserRequest(email, password))
                 .when()
-                .post(" https://stellarburgers.nomoreparties.site/api/auth/login");
+                .post();
         ;
         return response;
     }

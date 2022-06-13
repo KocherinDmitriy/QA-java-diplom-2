@@ -1,15 +1,17 @@
+import api.utils.DeleteUser;
 import api.utils.createuser.CreateUser;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
 public class CreateUserNegativeTest {
-    static String generateEmail=String.format("%s@gmail.com", RandomStringUtils.randomAlphabetic(10));
+    static String generateEmail = String.format("%s@gmail.com", RandomStringUtils.randomAlphabetic(10));
 
     private final String email;
     private final String password;
@@ -27,7 +29,8 @@ public class CreateUserNegativeTest {
         this.code = code;
     }
 
-    @Parameterized.Parameters (name = "{index} => email={0}, password={1}, name={2}, field={3}, message={4}, code={5}") // добавили аннотацию
+    @Parameterized.Parameters(name = "{index} => email={0}, password={1}, name={2}, field={3}, message={4}, code={5}")
+    // добавили аннотацию
     public static Object[][] getData() {
         return new Object[][]{
                 {"", "aasdad1", "asdasd", "message", "Email, password and name are required fields", 403},
@@ -46,6 +49,11 @@ public class CreateUserNegativeTest {
         Response response = CreateUser.sendPostRequestCreateUser(email, password, name);
         CreateUser.compareResponse(response, field, message);
         response.then().statusCode(code);
+    }
+
+    @After
+    public void teardown() {
+        DeleteUser.sendDeleteRequestUser(email, password);
     }
 
 }

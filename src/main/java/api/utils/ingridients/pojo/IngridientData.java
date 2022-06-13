@@ -1,6 +1,6 @@
 package api.utils.ingridients.pojo;
 
-public class IngridientData{
+public class IngridientData {
     public String _id;
     public String name;
     public String type;

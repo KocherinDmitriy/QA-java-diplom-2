@@ -1,4 +1,5 @@
 package api.utils.createuser.pojo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +21,12 @@ public class CreateAnswerPOJO {
         return createUserBlockPOJOS;
     }
 
-    public void setUser(ArrayList<CreateAnswerUserBlockPOJO>createUserBlockPOJOS) {
+    public void setUser(ArrayList<CreateAnswerUserBlockPOJO> createUserBlockPOJOS) {
         this.createUserBlockPOJOS = createUserBlockPOJOS;
     }
 
     public String getAccessToken() {
-        accessToken=accessToken.replace("Bearer ","");
+        accessToken = accessToken.replace("Bearer ", "");
         return accessToken;
     }
 

@@ -10,7 +10,7 @@ import static io.restassured.RestAssured.given;
 
 public class IngridientsRequest {
 
-    private static final RequestSpecification REQ_SPEC=
+    private static final RequestSpecification REQ_SPEC =
             new RequestSpecBuilder()
                     .setBaseUri("https://stellarburgers.nomoreparties.site")
                     .setBasePath("/api/ingredients")

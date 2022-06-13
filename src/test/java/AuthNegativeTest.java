@@ -1,9 +1,11 @@
+import api.utils.DeleteUser;
 import api.utils.auth.Auth;
 import api.utils.createuser.CreateUser;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -11,28 +13,27 @@ import org.junit.runners.Parameterized;
 @RunWith(Parameterized.class)
 public class AuthNegativeTest {
 
-    static String generateEmail=String.format("%s@gmail.com", RandomStringUtils.randomAlphabetic(10));
+    static String generateEmail = String.format("%s@gmail.com", RandomStringUtils.randomAlphabetic(10));
 
     private final String email;
     private final String password;
-    private final String field;
     private final String message;
-    private final int code;
 
-    public AuthNegativeTest(String email, String password, String field, String message, int code) {
+    public AuthNegativeTest(String email, String password, String message) {
         this.email = email;
         this.password = password;
 
-        this.field = field;
+
         this.message = message;
-        this.code = code;
+
     }
 
-    @Parameterized.Parameters (name = "{index} => email={0}, password={1}, field={2}, message={3}, code={4}") // добавили аннотацию
+    @Parameterized.Parameters(name = "{index} => email={0}, password={1}, field={2}, message={3}, code={4}")
+    // добавили аннотацию
     public static Object[][] getData() {
         return new Object[][]{
-                {generateEmail,"", "message", "email or password are incorrect", 401},
-                {"", "weqeqwe", "message", "email or password are incorrect", 401},
+                {generateEmail, "",  "email or password are incorrect"},
+                {"", "weqeqwe", "email or password are incorrect"},
 
 
         };
@@ -44,8 +45,9 @@ public class AuthNegativeTest {
     public void createNewCourierWithBusinessErrors() {
 
         Response response = Auth.sendPostRequestAutorization(email, password);
-        CreateUser.compareResponse(response, field, message);
-        response.then().statusCode(code);
+        CreateUser.compareResponse(response, "message", message);
+        response.then().statusCode(401);
     }
+
 
 }

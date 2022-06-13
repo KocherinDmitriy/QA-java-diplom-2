@@ -11,7 +11,7 @@ import static io.restassured.RestAssured.given;
 
 public class RequestOrders {
 
-    private static final RequestSpecification REQ_SPEC=
+    private static final RequestSpecification REQ_SPEC =
             new RequestSpecBuilder()
                     .setBaseUri("https://stellarburgers.nomoreparties.site")
                     .setBasePath("/api/orders")
@@ -20,7 +20,7 @@ public class RequestOrders {
 
 
     @Step("Send GET https://stellarburgers.nomoreparties.site/api/orders/all")
-    public static  Response allOrders(String authToken) {
+    public static Response allOrders(String authToken) {
         Response response = given()
                 .spec(REQ_SPEC).auth().oauth2(authToken)
                 .and()
@@ -28,13 +28,14 @@ public class RequestOrders {
         ;
         return response;
     }
-        @Step("Send GET https://stellarburgers.nomoreparties.site/api/orders")
-        public static  Response allMyOrders(String authToken) {
-            Response response = given()
-                    .spec(REQ_SPEC).auth().oauth2(authToken)
-                    .and()
-                    .get();
-            ;
-            return response;
-        }
+
+    @Step("Send GET https://stellarburgers.nomoreparties.site/api/orders")
+    public static Response allMyOrders(String authToken) {
+        Response response = given()
+                .spec(REQ_SPEC).auth().oauth2(authToken)
+                .and()
+                .get();
+        ;
+        return response;
+    }
 }

@@ -8,6 +8,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.After;
 import org.junit.Test;
 
 
@@ -23,11 +24,11 @@ public class CreateOrderTest {
     public void createOrder() {
         IngridientBody ingridientBody = IngridientsRequest.getIngridientsRequest().body().as(IngridientBody.class);
         CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
-        Response response=CreateOrder.sendOrderRequest(createAnswerPOJO.getAccessToken(),ingridientBody.data.get(5)._id);
-        CreateOrder.compareResponseWithBollean(response,"success",true);
-        CreateOrder.compareResponse(response,"name","Люминесцентный бургер");
-        DeleteUser deleteUser = new DeleteUser();
-        deleteUser.sendDeleteRequestUser(createAnswerPOJO.getAccessToken());
+        Response response = CreateOrder.sendOrderRequest(createAnswerPOJO.getAccessToken(), ingridientBody.data.get(5)._id);
+        CreateOrder.compareResponseWithBollean(response, "success", true);
+        CreateOrder.compareResponse(response, "name", "Люминесцентный бургер");
+        System.out.println(login + password);
+
 
     }
 
@@ -36,11 +37,10 @@ public class CreateOrderTest {
     @Test
     public void createOrderWhithWrongHashIng() {
         CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
-        Response response=CreateOrder.sendOrderRequest(createAnswerPOJO.getAccessToken(),"609646e4dc916e00276b2870");
-        CreateOrder.compareResponseWithBollean(response,"success",false);
-        CreateOrder.compareResponse(response,"message","One or more ids provided are incorrect");
-        DeleteUser deleteUser = new DeleteUser();
-        deleteUser.sendDeleteRequestUser(createAnswerPOJO.getAccessToken());
+        Response response = CreateOrder.sendOrderRequest(createAnswerPOJO.getAccessToken(), "609646e4dc916e00276b2870");
+        CreateOrder.compareResponseWithBollean(response, "success", false);
+        CreateOrder.compareResponse(response, "message", "One or more ids provided are incorrect");
+
 
     }
 
@@ -49,9 +49,9 @@ public class CreateOrderTest {
     @Test
     public void createOrderWhithoutAutorization() {
         IngridientBody ingridientBody = IngridientsRequest.getIngridientsRequest().body().as(IngridientBody.class);
-        Response response=CreateOrder.sendOrderRequest("",ingridientBody.data.get(1)._id);
-        CreateOrder.compareResponseWithBollean(response,"success",true);
-        CreateOrder.compareResponse(response,"name","Бессмертный бургер");
+        Response response = CreateOrder.sendOrderRequest("", ingridientBody.data.get(1)._id);
+        CreateOrder.compareResponseWithBollean(response, "success", true);
+        CreateOrder.compareResponse(response, "name", "Бессмертный бургер");
     }
 
     @DisplayName("Create Order without ingredient")
@@ -59,12 +59,16 @@ public class CreateOrderTest {
     @Test
     public void createOrderWithoutIngridients() {
         CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
-        Response response=CreateOrder.sendOrderRequestWitoutIngridients(createAnswerPOJO.getAccessToken());
-        CreateOrder.compareResponseWithBollean(response,"success",false);
-        CreateOrder.compareResponse(response,"message","Ingredient ids must be provided");
-        DeleteUser deleteUser = new DeleteUser();
-        deleteUser.sendDeleteRequestUser(createAnswerPOJO.getAccessToken());
+        Response response = CreateOrder.sendOrderRequestWitoutIngridients(createAnswerPOJO.getAccessToken());
+        CreateOrder.compareResponseWithBollean(response, "success", false);
+        CreateOrder.compareResponse(response, "message", "Ingredient ids must be provided");
 
+
+    }
+
+    @After
+    public void teardown() {
+        DeleteUser.sendDeleteRequestUser(login, password);
     }
 
 }

@@ -3,7 +3,7 @@ package api.utils.orders.pojo;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Order{
+public class Order {
     public String _id;
     public ArrayList<String> ingredients;
     public String status;

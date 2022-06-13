@@ -1,6 +1,7 @@
-package api.utils.createuser.pojo;
+package api.utils.personaldata.answercreateuser;
 
-public class CreateAnswerUserBlockPOJO {
+
+public class CreateUserResponseUserBlock {
     private String email;
     private String name;
 

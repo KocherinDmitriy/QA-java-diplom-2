@@ -8,6 +8,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,11 +25,11 @@ public class OrderTest {
     public void getAllOrderAuthUser() {
 
         CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
-        Root root= RequestOrders.allOrders(createAnswerPOJO.getAccessToken()).body().as(Root.class);
-        Assert.assertEquals(50,root.orders.size());
-        DeleteUser deleteUser = new DeleteUser();
-        deleteUser.sendDeleteRequestUser(createAnswerPOJO.getAccessToken());
+        Root root = RequestOrders.allOrders(createAnswerPOJO.getAccessToken()).body().as(Root.class);
+        Assert.assertEquals(50, root.orders.size());
+
     }
+
     @DisplayName("Get Personal Orders test with auth user")
     @Description("Happy Path")
     @Test
@@ -36,30 +37,36 @@ public class OrderTest {
 
         CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
         GenerateOrders generateOrders = new GenerateOrders();
-        generateOrders.generate5Orders(createAnswerPOJO.getAccessToken(),"61c0c5a71d1f82001bdaaa6d");
-        Root root= RequestOrders.allMyOrders(createAnswerPOJO.getAccessToken()).body().as(Root.class);;
+        generateOrders.generate5Orders(createAnswerPOJO.getAccessToken(), "61c0c5a71d1f82001bdaaa6d");
+        Root root = RequestOrders.allMyOrders(createAnswerPOJO.getAccessToken()).body().as(Root.class);
+        ;
         System.out.println(root.orders.size());
-        DeleteUser deleteUser = new DeleteUser();
-        deleteUser.sendDeleteRequestUser(createAnswerPOJO.getAccessToken());
+
     }
+
     @DisplayName("Get Personal Orders test without authorization")
     @Description("Negative")
     @Test
     public void getMyOrderWithoutAuth() {
-        Response response1= RequestOrders.allMyOrders("");
+        Response response1 = RequestOrders.allMyOrders("");
         response1.then().assertThat().body("success", equalTo(false));
         response1.then().assertThat().body("message", equalTo("You should be authorised"));
 
     }
+
     @DisplayName("Get All Orders test without authorization")
     @Description("Happy Path")
     @Test
     public void getAllOrderWithoutAuth() {
-        Root root= RequestOrders.allOrders("").body().as(Root.class);
-        Assert.assertEquals(50,root.orders.size());
-        Assert.assertEquals(true,root.success);
+        Root root = RequestOrders.allOrders("").body().as(Root.class);
+        Assert.assertEquals(50, root.orders.size());
+        Assert.assertEquals(true, root.success);
 
     }
 
+    @After
+    public void teardown() {
+        DeleteUser.sendDeleteRequestUser(login, password);
+    }
 }
 
