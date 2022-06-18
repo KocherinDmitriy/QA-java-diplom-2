@@ -22,8 +22,8 @@ public class CreateOrderTest {
 
     @Test
     public void createOrder() {
-        IngridientBody ingridientBody = IngridientsRequest.getIngridientsRequest().body().as(IngridientBody.class);
-        CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
+        IngridientBody ingridientBody = new IngridientsRequest().getIngridientsRequest().body().as(IngridientBody.class);
+        CreateAnswerPOJO createAnswerPOJO = new CreateUser().sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
         Response response = CreateOrder.sendOrderRequest(createAnswerPOJO.getAccessToken(), ingridientBody.getData().get(5).get_id());
         CreateOrder.compareResponseWithBollean(response, "success", true);
         CreateOrder.compareResponse(response, "name", "Люминесцентный бургер");
@@ -36,7 +36,7 @@ public class CreateOrderTest {
     @Description("Negative test")
     @Test
     public void createOrderWhithWrongHashIng() {
-        CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
+        CreateAnswerPOJO createAnswerPOJO = new CreateUser().sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
         Response response = CreateOrder.sendOrderRequest(createAnswerPOJO.getAccessToken(), "609646e4dc916e00276b2870");
         CreateOrder.compareResponseWithBollean(response, "success", false);
         CreateOrder.compareResponse(response, "message", "One or more ids provided are incorrect");
@@ -48,7 +48,7 @@ public class CreateOrderTest {
     @Description("Happy Path")
     @Test
     public void createOrderWhithoutAutorization() {
-        IngridientBody ingridientBody = IngridientsRequest.getIngridientsRequest().body().as(IngridientBody.class);
+        IngridientBody ingridientBody = new IngridientsRequest().getIngridientsRequest().body().as(IngridientBody.class);
         Response response = CreateOrder.sendOrderRequest("", ingridientBody.getData().get(1).get_id());
         CreateOrder.compareResponseWithBollean(response, "success", true);
         CreateOrder.compareResponse(response, "name", "Бессмертный бургер");
@@ -58,7 +58,7 @@ public class CreateOrderTest {
     @Description("Happy Path")
     @Test
     public void createOrderWithoutIngridients() {
-        CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
+        CreateAnswerPOJO createAnswerPOJO = new CreateUser().sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
         Response response = CreateOrder.sendOrderRequestWitoutIngridients(createAnswerPOJO.getAccessToken());
         CreateOrder.compareResponseWithBollean(response, "success", false);
         CreateOrder.compareResponse(response, "message", "Ingredient ids must be provided");
@@ -68,7 +68,7 @@ public class CreateOrderTest {
 
     @After
     public void teardown() {
-        DeleteUser.sendDeleteRequestUser(login, password);
+        new DeleteUser().sendDeleteRequestUser(login, password);
     }
 
 }

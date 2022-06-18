@@ -9,10 +9,11 @@ import static io.restassured.RestAssured.given;
 
 
 public class RequestOrders extends BaseSpec {
-
+    public RequestOrders() {
+    }
 
     @Step("Send GET https://stellarburgers.nomoreparties.site/api/orders/all")
-    public static Response allOrders(String authToken) {
+    public  Response allOrders(String authToken) {
         Response response = given()
                 .spec(REQ_SPEC).auth().oauth2(authToken)
                 .and()
@@ -22,7 +23,7 @@ public class RequestOrders extends BaseSpec {
     }
 
     @Step("Send GET https://stellarburgers.nomoreparties.site/api/orders")
-    public static Response allMyOrders(String authToken) {
+    public  Response allMyOrders(String authToken) {
         Response response = given()
                 .spec(REQ_SPEC).auth().oauth2(authToken)
                 .and()

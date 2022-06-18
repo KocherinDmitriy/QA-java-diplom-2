@@ -24,8 +24,8 @@ public class OrderTest {
     @Test
     public void getAllOrderAuthUser() {
 
-        CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
-        Root root = RequestOrders.allOrders(createAnswerPOJO.getAccessToken()).body().as(Root.class);
+        CreateAnswerPOJO createAnswerPOJO = new CreateUser().sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
+        Root root = new RequestOrders().allOrders(createAnswerPOJO.getAccessToken()).body().as(Root.class);
         Assert.assertEquals(50, root.getOrders().size());
 
     }
@@ -35,10 +35,10 @@ public class OrderTest {
     @Test
     public void getMyOrders() {
 
-        CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
+        CreateAnswerPOJO createAnswerPOJO = new CreateUser().sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
         GenerateOrders generateOrders = new GenerateOrders();
         generateOrders.generate5Orders(createAnswerPOJO.getAccessToken(), "61c0c5a71d1f82001bdaaa6d");
-        Root root = RequestOrders.allMyOrders(createAnswerPOJO.getAccessToken()).body().as(Root.class);
+        Root root = new RequestOrders().allMyOrders(createAnswerPOJO.getAccessToken()).body().as(Root.class);
         ;
         System.out.println(root.getOrders().size());
 
@@ -48,7 +48,7 @@ public class OrderTest {
     @Description("Negative")
     @Test
     public void getMyOrderWithoutAuth() {
-        Response response1 = RequestOrders.allMyOrders("");
+        Response response1 = new RequestOrders().allMyOrders("");
         response1.then().assertThat().body("success", equalTo(false));
         response1.then().assertThat().body("message", equalTo("You should be authorised"));
 
@@ -58,7 +58,7 @@ public class OrderTest {
     @Description("Happy Path")
     @Test
     public void getAllOrderWithoutAuth() {
-        Root root = RequestOrders.allOrders("").body().as(Root.class);
+        Root root = new RequestOrders().allOrders("").body().as(Root.class);
         Assert.assertEquals(50, root.getOrders().size());
         Assert.assertEquals(true, root.isSuccess());
 
@@ -66,7 +66,7 @@ public class OrderTest {
 
     @After
     public void teardown() {
-        DeleteUser.sendDeleteRequestUser(login, password);
+        new DeleteUser().sendDeleteRequestUser(login, password);
     }
 }
 

@@ -8,10 +8,11 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
 public class IngridientsRequest extends BaseSpec {
-
+    public IngridientsRequest() {
+    }
 
     @Step("Send POST https://stellarburgers.nomoreparties.site/api/ingredients")
-    public static Response getIngridientsRequest() {
+    public  Response getIngridientsRequest() {
         Response response = given()
                 .spec(REQ_SPEC)
                 .and()

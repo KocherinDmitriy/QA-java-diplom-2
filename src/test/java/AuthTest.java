@@ -21,8 +21,8 @@ public class AuthTest {
     @Test
     public void authNewUserTest() {
 
-        CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
-        Response response = Auth.sendPostRequestAutorization(login, password);
+        CreateAnswerPOJO createAnswerPOJO = new CreateUser().sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
+        Response response = new Auth().sendPostRequestAutorization(login,password);
         response.then().assertThat().body("success", equalTo(true));
         response.then().statusCode(200);
 
@@ -31,7 +31,7 @@ public class AuthTest {
 
     @After
     public void teardown() {
-        DeleteUser.sendDeleteRequestUser(login, password);
+        new DeleteUser().sendDeleteRequestUser(login, password);
     }
 
 

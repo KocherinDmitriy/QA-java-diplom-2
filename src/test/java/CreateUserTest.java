@@ -20,15 +20,15 @@ public class CreateUserTest {
     public void createNewCourierWithRandomLogPass() {
 
 
-        Response response = CreateUser.sendPostRequestCreateUser(login, password, name);
-        CreateUser.compareResponseWithBollean(response, "success", true);
+        Response response = new CreateUser().sendPostRequestCreateUser(login, password, name);
+        new CreateUser().compareResponseWithBollean(response, "success", true);
         response.then().statusCode(200);
         System.out.println(login + " " + password);
     }
 
     @After
     public void teardown() {
-        DeleteUser.sendDeleteRequestUser(login, password);
+        new DeleteUser().sendDeleteRequestUser(login, password);
     }
 
 

@@ -10,8 +10,10 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 public class Auth extends BaseSpec {
+    public Auth() {
+    }
 
-    public static HashMap getBodyAuthUserRequest(String email, String password) {
+    private HashMap getBodyAuthUserRequest(String email, String password) {
         HashMap<String, Object> dataBody = new HashMap<String, Object>();
         dataBody.put("email", email);
         dataBody.put("password", password);
@@ -21,7 +23,7 @@ public class Auth extends BaseSpec {
     }
 
 
-    public static String getAuthToken(String email, String password) {
+    public  String getAuthToken(String email, String password) {
         Response response = given()
                 .spec(REQ_SPEC)
                 .and()
@@ -34,7 +36,7 @@ public class Auth extends BaseSpec {
     }
 
     @Step("Send POST  https://stellarburgers.nomoreparties.site/api/auth/login")
-    public static Response sendPostRequestAutorization(String email, String password) {
+    public  Response sendPostRequestAutorization(String email, String password) {
         Response response = given()
                 .spec(REQ_SPEC)
                 .and()

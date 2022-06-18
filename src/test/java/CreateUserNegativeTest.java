@@ -46,14 +46,14 @@ public class CreateUserNegativeTest {
     @Test
     public void createNewCourierWithBusinessErrors() {
 
-        Response response = CreateUser.sendPostRequestCreateUser(email, password, name);
-        CreateUser.compareResponse(response, field, message);
+        Response response = new CreateUser().sendPostRequestCreateUser(email, password, name);
+        new CreateUser().compareResponse(response, field, message);
         response.then().statusCode(code);
     }
 
     @After
     public void teardown() {
-        DeleteUser.sendDeleteRequestUser(email, password);
+        new DeleteUser().sendDeleteRequestUser(email, password);
     }
 
 }

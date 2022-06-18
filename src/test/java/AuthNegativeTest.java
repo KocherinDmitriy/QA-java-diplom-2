@@ -44,8 +44,8 @@ public class AuthNegativeTest {
     @Test
     public void createNewCourierWithBusinessErrors() {
 
-        Response response = Auth.sendPostRequestAutorization(email, password);
-        CreateUser.compareResponse(response, "message", message);
+        Response response = new Auth().sendPostRequestAutorization(email,password);
+        new CreateUser().compareResponse(response, "message", message);
         response.then().statusCode(401);
     }
 

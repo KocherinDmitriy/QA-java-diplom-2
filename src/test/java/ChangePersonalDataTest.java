@@ -27,8 +27,8 @@ public class ChangePersonalDataTest {
     public void changePersonalData() {
 
 
-        CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
-        Response response = ChangePersonalData.sendPatchRequestChangeUser(createAnswerPOJO.getAccessToken(), loginToChange, passwordToChange, nameToChange);
+        CreateAnswerPOJO createAnswerPOJO = new CreateUser().sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
+        Response response = new ChangePersonalData().sendPatchRequestChangeUser(createAnswerPOJO.getAccessToken(), loginToChange, passwordToChange, nameToChange);
         response.then().assertThat().body("success", equalTo(true));
         response.then().statusCode(200);
         response.then().assertThat().equals(loginToChange);
@@ -40,11 +40,11 @@ public class ChangePersonalDataTest {
     @Test
     public void authWithNewPersonalData() { //check password
 
-        CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
-        Response response = ChangePersonalData.sendPatchRequestChangeUser(createAnswerPOJO.getAccessToken(), loginToChange, passwordToChange, nameToChange);
-        Response responseOldData = Auth.sendPostRequestAutorization(login, password);
+        CreateAnswerPOJO createAnswerPOJO = new CreateUser().sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
+        Response response = new ChangePersonalData().sendPatchRequestChangeUser(createAnswerPOJO.getAccessToken(), loginToChange, passwordToChange, nameToChange);
+        Response responseOldData = new Auth().sendPostRequestAutorization(login,password);
         responseOldData.then().assertThat().body("success", equalTo(false));
-        Response responseNewData = Auth.sendPostRequestAutorization(loginToChange, passwordToChange);
+        Response responseNewData = new Auth().sendPostRequestAutorization(loginToChange,passwordToChange);
         responseNewData.then().assertThat().body("success", equalTo(true));
         responseNewData.then().statusCode(200);
         responseNewData.then().assertThat().equals(loginToChange);
@@ -56,14 +56,14 @@ public class ChangePersonalDataTest {
     @Test
     public void changePersonalDataWhitBadAccessToken() {
 
-        Response response = ChangePersonalData.sendPatchRequestChangeUser("", loginToChange, passwordToChange, nameToChange);
+        Response response = new ChangePersonalData().sendPatchRequestChangeUser("", loginToChange, passwordToChange, nameToChange);
         response.then().statusCode(401);
         response.then().assertThat().body("message", equalTo("You should be authorised"));
     }
 
     @After
     public void teardown() {
-        DeleteUser.sendDeleteRequestUser(loginToChange, passwordToChange);
+        new DeleteUser().sendDeleteRequestUser(loginToChange, passwordToChange);
     }
 
 }

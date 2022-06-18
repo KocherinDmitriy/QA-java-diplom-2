@@ -9,9 +9,10 @@ import java.util.HashMap;
 import static io.restassured.RestAssured.given;
 
 public class ChangePersonalData extends BaseSpec {
+    public ChangePersonalData() {
+    }
 
-
-    public static HashMap getBodyChangeUserCredentialsRequest(String email, String password, String name) {
+    private HashMap getBodyChangeUserCredentialsRequest(String email, String password, String name) {
         HashMap<String, Object> dataBody = new HashMap<String, Object>();
         dataBody.put("email", email);
         dataBody.put("password", password);
@@ -22,7 +23,7 @@ public class ChangePersonalData extends BaseSpec {
 
 
     @Step("Send POST https://stellarburgers.nomoreparties.site/api/auth/user")
-    public static Response sendPatchRequestChangeUser(String authToken, String email, String password, String name) {
+    public Response sendPatchRequestChangeUser(String authToken, String email, String password, String name) {
         Response response = given()
                 .spec(REQ_SPEC).auth().oauth2(authToken)
                 .and()
