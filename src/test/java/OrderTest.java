@@ -26,7 +26,7 @@ public class OrderTest {
 
         CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
         Root root = RequestOrders.allOrders(createAnswerPOJO.getAccessToken()).body().as(Root.class);
-        Assert.assertEquals(50, root.orders.size());
+        Assert.assertEquals(50, root.getOrders().size());
 
     }
 
@@ -40,7 +40,7 @@ public class OrderTest {
         generateOrders.generate5Orders(createAnswerPOJO.getAccessToken(), "61c0c5a71d1f82001bdaaa6d");
         Root root = RequestOrders.allMyOrders(createAnswerPOJO.getAccessToken()).body().as(Root.class);
         ;
-        System.out.println(root.orders.size());
+        System.out.println(root.getOrders().size());
 
     }
 
@@ -59,8 +59,8 @@ public class OrderTest {
     @Test
     public void getAllOrderWithoutAuth() {
         Root root = RequestOrders.allOrders("").body().as(Root.class);
-        Assert.assertEquals(50, root.orders.size());
-        Assert.assertEquals(true, root.success);
+        Assert.assertEquals(50, root.getOrders().size());
+        Assert.assertEquals(true, root.isSuccess());
 
     }
 

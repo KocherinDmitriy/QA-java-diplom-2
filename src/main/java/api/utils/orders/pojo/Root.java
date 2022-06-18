@@ -3,10 +3,10 @@ package api.utils.orders.pojo;
 import java.util.ArrayList;
 
 public class Root {
-    public boolean success;
-    public ArrayList<Order> orders;
-    public int total;
-    public int totalToday;
+    private boolean success;
+    private ArrayList<Order> orders;
+    private int total;
+    private int totalToday;
 
     public boolean isSuccess() {
         return success;

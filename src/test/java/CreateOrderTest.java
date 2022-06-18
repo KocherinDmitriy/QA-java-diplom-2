@@ -24,7 +24,7 @@ public class CreateOrderTest {
     public void createOrder() {
         IngridientBody ingridientBody = IngridientsRequest.getIngridientsRequest().body().as(IngridientBody.class);
         CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
-        Response response = CreateOrder.sendOrderRequest(createAnswerPOJO.getAccessToken(), ingridientBody.data.get(5)._id);
+        Response response = CreateOrder.sendOrderRequest(createAnswerPOJO.getAccessToken(), ingridientBody.getData().get(5).get_id());
         CreateOrder.compareResponseWithBollean(response, "success", true);
         CreateOrder.compareResponse(response, "name", "Люминесцентный бургер");
         System.out.println(login + password);
@@ -49,7 +49,7 @@ public class CreateOrderTest {
     @Test
     public void createOrderWhithoutAutorization() {
         IngridientBody ingridientBody = IngridientsRequest.getIngridientsRequest().body().as(IngridientBody.class);
-        Response response = CreateOrder.sendOrderRequest("", ingridientBody.data.get(1)._id);
+        Response response = CreateOrder.sendOrderRequest("", ingridientBody.getData().get(1).get_id());
         CreateOrder.compareResponseWithBollean(response, "success", true);
         CreateOrder.compareResponse(response, "name", "Бессмертный бургер");
     }

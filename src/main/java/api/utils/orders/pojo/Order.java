@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Order {
-    public String _id;
-    public ArrayList<String> ingredients;
-    public String status;
-    public String name;
-    public Date createdAt;
-    public Date updatedAt;
-    public int number;
+    private String _id;
+    private ArrayList<String> ingredients;
+    private String status;
+    private String name;
+    private Date createdAt;
+    private Date updatedAt;
+    private int number;
 
     public String get_id() {
         return _id;
