@@ -13,11 +13,10 @@ public class IngridientsRequest extends BaseSpec {
 
     @Step("Send POST https://stellarburgers.nomoreparties.site/api/ingredients")
     public  Response getIngridientsRequest() {
-        Response response = given()
+        return given()
                 .spec(REQ_SPEC)
                 .and()
                 .get("/api/ingredients");
-        ;
-        return response;
+
     }
 }
