@@ -47,13 +47,4 @@ public class Auth extends BaseSpec {
         return response;
     }
 
-    @Step("Compare answer to server")
-    public static void compareResponse(Response response, String field, String message) {
-        response.then().assertThat().body(field, equalTo(message));
-    }
-
-    @Step("Compare answer to server")
-    public static void compareResponseWithBollean(Response response, String field, Boolean message) {
-        response.then().assertThat().body(field, equalTo(message));
-    }
 }

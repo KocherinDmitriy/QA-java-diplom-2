@@ -21,7 +21,7 @@ public class CreateUserTest {
 
 
         Response response = new CreateUser().sendPostRequestCreateUser(login, password, name);
-        new CreateUser().compareResponseWithBollean(response, "success", true);
+        new CreateUser().compareResponse(response, "success", true);
         response.then().statusCode(200);
         System.out.println(login + " " + password);
     }

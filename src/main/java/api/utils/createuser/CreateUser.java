@@ -40,7 +40,7 @@ public class CreateUser extends BaseSpec {
     }
 
     @Step("Compare answer to server")
-    public void compareResponseWithBollean(Response response, String field, Boolean message) {
+    public void compareResponse(Response response, String field, Boolean message) {
         response.then().assertThat().body(field, equalTo(message));
     }
 }
