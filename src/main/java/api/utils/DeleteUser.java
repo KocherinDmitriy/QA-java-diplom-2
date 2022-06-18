@@ -14,7 +14,7 @@ public class DeleteUser extends BaseSpec {
             System.out.println("Пользователя нет совсем");
         } else {
             given()
-                    .spec(REQ_SPEC)
+                    .spec(REQ_SPEC).auth().oauth2(oauthToken)
                     .and()
                     .body("")
                     .when()
