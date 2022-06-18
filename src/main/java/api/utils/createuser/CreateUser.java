@@ -1,5 +1,6 @@
 package api.utils.createuser;
 
+import api.utils.BaseSpec;
 import io.qameta.allure.Step;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
-public class CreateUser {
+public class CreateUser extends BaseSpec {
 
     public static HashMap getBodyCreateUserRequest(String email, String password, String name) {
         HashMap<String, Object> dataBody = new HashMap<String, Object>();
@@ -21,24 +22,20 @@ public class CreateUser {
 
         return dataBody;
     }
-    private static final RequestSpecification REQ_SPEC=
-            new RequestSpecBuilder()
-                    .setBaseUri("https://stellarburgers.nomoreparties.site")
-                    .setBasePath("/api/auth/register")
-                    .setContentType(ContentType.JSON)
-                    .build();
+
 
     @Step("Send POST https://stellarburgers.nomoreparties.site/api/auth/register")
     public static Response sendPostRequestCreateUser(String email, String password, String name) {
         Response response = given()
                 .spec(REQ_SPEC)
                 .and()
-                .body(getBodyCreateUserRequest(email,password,name))
+                .body(getBodyCreateUserRequest(email, password, name))
                 .when()
-                .post();
+                .post("/api/auth/register");
         ;
         return response;
     }
+
     @Step("Compare answer to server")
     public static void compareResponse(Response response, String field, String message) {
         response.then().assertThat().body(field, equalTo(message));

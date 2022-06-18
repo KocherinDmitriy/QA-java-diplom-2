@@ -1,22 +1,14 @@
 package api.utils.orders;
 
+import api.utils.BaseSpec;
 import io.qameta.allure.Step;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
+
 
 import static io.restassured.RestAssured.given;
 
 
-public class RequestOrders {
-
-    private static final RequestSpecification REQ_SPEC =
-            new RequestSpecBuilder()
-                    .setBaseUri("https://stellarburgers.nomoreparties.site")
-                    .setBasePath("/api/orders")
-                    .setContentType(ContentType.JSON)
-                    .build();
+public class RequestOrders extends BaseSpec {
 
 
     @Step("Send GET https://stellarburgers.nomoreparties.site/api/orders/all")
@@ -24,7 +16,7 @@ public class RequestOrders {
         Response response = given()
                 .spec(REQ_SPEC).auth().oauth2(authToken)
                 .and()
-                .get(" /all");
+                .get("/api/orders/all");
         ;
         return response;
     }
@@ -34,7 +26,7 @@ public class RequestOrders {
         Response response = given()
                 .spec(REQ_SPEC).auth().oauth2(authToken)
                 .and()
-                .get();
+                .get("/api/orders");
         ;
         return response;
     }

@@ -1,17 +1,15 @@
 package api.utils.auth;
 
+import api.utils.BaseSpec;
 import io.qameta.allure.Step;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 
 import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
-public class Auth {
+public class Auth extends BaseSpec {
 
     public static HashMap getBodyAuthUserRequest(String email, String password) {
         HashMap<String, Object> dataBody = new HashMap<String, Object>();
@@ -22,12 +20,6 @@ public class Auth {
         return dataBody;
     }
 
-    private static final RequestSpecification REQ_SPEC =
-            new RequestSpecBuilder()
-                    .setBaseUri("https://stellarburgers.nomoreparties.site")
-                    .setBasePath("/api/auth/login")
-                    .setContentType(ContentType.JSON)
-                    .build();
 
     public static String getAuthToken(String email, String password) {
         Response response = given()
@@ -35,7 +27,7 @@ public class Auth {
                 .and()
                 .body(getBodyAuthUserRequest(email, password))
                 .when()
-                .post();
+                .post("/api/auth/login");
 
         unils.pojo.CreateUserResponse createUserResponse = response.body().as(unils.pojo.CreateUserResponse.class);
         return createUserResponse.getAccessToken();
@@ -48,7 +40,7 @@ public class Auth {
                 .and()
                 .body(getBodyAuthUserRequest(email, password))
                 .when()
-                .post();
+                .post("/api/auth/login");
         ;
         return response;
     }
