@@ -22,9 +22,9 @@ public class AuthTest {
     public void authNewUserTest() {
 
         CreateAnswerPOJO createAnswerPOJO = CreateUser.sendPostRequestCreateUser(login, password, name).body().as(CreateAnswerPOJO.class);
-        Response response1 = Auth.sendPostRequestAutorization(login, password);
-        response1.then().assertThat().body("success", equalTo(true));
-        response1.then().statusCode(200);
+        Response response = Auth.sendPostRequestAutorization(login, password);
+        response.then().assertThat().body("success", equalTo(true));
+        response.then().statusCode(200);
 
 
     }
