@@ -1,7 +1,5 @@
-package unils.pojo;
-
+package api.utils.personaldata.answercreateuser;
 import api.utils.personaldata.answercreateuser.CreateUserResponseUserBlock;
-
 public class CreateUserResponse {
     private Boolean success;
     private String accessToken;
@@ -24,14 +22,12 @@ public class CreateUserResponse {
         this.createUserResponseUserBlocks = createUserResponseUserBlocks;
     }
 
-    public String getAccessToken() throws NullPointerException {
-        try {
+    public String getAccessToken() {
+        if (accessToken != null) {
             accessToken = accessToken.replace("Bearer ", "");
-        } catch (NullPointerException e) {
         }
         return accessToken;
     }
-
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }

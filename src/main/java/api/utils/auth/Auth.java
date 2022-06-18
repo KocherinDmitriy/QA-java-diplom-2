@@ -31,7 +31,7 @@ public class Auth extends BaseSpec {
                 .when()
                 .post("/api/auth/login");
 
-        unils.pojo.CreateUserResponse createUserResponse = response.body().as(unils.pojo.CreateUserResponse.class);
+        api.utils.personaldata.answercreateuser.CreateUserResponse createUserResponse = response.body().as( api.utils.personaldata.answercreateuser.CreateUserResponse.class);
         return createUserResponse.getAccessToken();
     }
 
